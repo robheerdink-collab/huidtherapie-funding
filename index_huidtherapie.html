@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Funding Watch — Integrale Huidgezondheid</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --skin-1: #F5EDE6;
+    --skin-2: #E8D5C8;
+    --skin-3: #C49A8A;
+    --terracotta: #B5583A;
+    --terracotta-dark: #8C3D25;
+    --sage: #7A9E8A;
+    --sage-light: #A8C4B4;
+    --charcoal: #2C2420;
+    --warm-mid: #6B4E42;
+    --cream: #FAF6F2;
+    --white: #FFFFFF;
+    --border: rgba(180,140,120,0.2);
+    --shadow: 0 2px 16px rgba(44,36,32,0.09);
+    --shadow-hover: 0 8px 32px rgba(44,36,32,0.15);
+    --open-bg: #EDF5F0;
+    --open-color: #2D6B4A;
+    --upcoming-bg: #FFF3E8;
+    --upcoming-color: #8C4A1A;
+    --continuous-bg: #EDF0F8;
+    --continuous-color: #2A3E7A;
+    --closed-bg: #F0EDEB;
+    --closed-color: #7A6A62;
+    --urgent-bg: #FEE8E8;
+    --urgent-color: #B52020;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--charcoal);
+    color: var(--cream);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+
+  .header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .header-icon {
+    width: 42px;
+    height: 42px;
+    background: var(--terracotta);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .header-text h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    color: var(--cream);
+  }
+
+  .header-text p {
+    font-size: 0.75rem;
+    color: var(--skin-2);
+    margin-top: 2px;
+    font-weight: 300;
+  }
+
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+  }
+
+  .last-updated {
+    font-size: 0.72rem;
+    color: var(--skin-3);
+    text-align: right;
+  }
+
+  /* HERO STRIP */
+  .hero {
+    background: linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-dark) 100%);
+    padding: 28px 32px;
+  }
+
+  .hero-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .hero-text h2 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.6rem;
+    color: #fff;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.3;
+  }
+
+  .hero-text p {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.8);
+    margin-top: 6px;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .stat-pill {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 8px;
+    padding: 10px 18px;
+    text-align: center;
+    backdrop-filter: blur(4px);
+  }
+
+  .stat-pill .num {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+    font-family: 'Libre Baskerville', serif;
+  }
+
+  .stat-pill .label {
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.75);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+
+  /* MAIN CONTENT */
+  .main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 28px 32px 60px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  /* FILTERS SIDEBAR */
+  .sidebar {
+    position: sticky;
+    top: 82px;
+  }
+
+  .filter-section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
+
+  .filter-section h3 {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--warm-mid);
+    font-weight: 600;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .search-box {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--skin-2);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: var(--charcoal);
+    background: var(--cream);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-box:focus {
+    border-color: var(--terracotta);
+  }
+
+  .filter-chips {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .filter-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-size: 0.84rem;
+    user-select: none;
+  }
+
+  .filter-chip:hover { background: var(--skin-1); }
+  .filter-chip.active { background: var(--skin-1); font-weight: 500; }
+
+  .filter-chip input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--terracotta);
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  .chip-badge {
+    margin-left: auto;
+    background: var(--skin-2);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 0.68rem;
+    color: var(--warm-mid);
+    font-weight: 600;
+  }
+
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .tag-btn {
+    padding: 4px 9px;
+    border-radius: 5px;
+    border: 1.5px solid var(--skin-2);
+    background: var(--cream);
+    font-size: 0.72rem;
+    color: var(--warm-mid);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .tag-btn:hover, .tag-btn.active {
+    background: var(--terracotta);
+    border-color: var(--terracotta);
+    color: #fff;
+  }
+
+  .reset-btn {
+    width: 100%;
+    padding: 9px;
+    background: transparent;
+    border: 1.5px solid var(--skin-3);
+    border-radius: 8px;
+    color: var(--warm-mid);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 4px;
+  }
+
+  .reset-btn:hover {
+    background: var(--terracotta);
+    border-color: var(--terracotta);
+    color: #fff;
+  }
+
+  /* SORT BAR */
+  .sort-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .results-count {
+    font-size: 0.82rem;
+    color: var(--warm-mid);
+  }
+
+  .results-count strong { color: var(--charcoal); }
+
+  .sort-select {
+    padding: 7px 12px;
+    border: 1.5px solid var(--skin-2);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    background: var(--white);
+    color: var(--charcoal);
+    cursor: pointer;
+  }
+
+  /* CARDS GRID */
+  .cards-grid {
+    display: grid;
+    gap: 14px;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s, transform 0.2s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--skin-3);
+    border-radius: 14px 0 0 14px;
+    transition: background 0.2s;
+  }
+
+  .card.status-open::before { background: var(--sage); }
+  .card.status-upcoming::before { background: var(--terracotta); }
+  .card.status-continuous::before { background: #5B7FBF; }
+  .card.urgent::before { background: var(--urgent-color); }
+
+  .card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .card-funder {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--warm-mid);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .card-name {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--charcoal);
+    line-height: 1.35;
+  }
+
+  .card-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-end;
+    flex-shrink: 0;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .status-open { background: var(--open-bg); color: var(--open-color); }
+  .status-upcoming { background: var(--upcoming-bg); color: var(--upcoming-color); }
+  .status-continuous { background: var(--continuous-bg); color: var(--continuous-color); }
+  .status-closed { background: var(--closed-bg); color: var(--closed-color); }
+
+  .urgent-badge {
+    background: var(--urgent-bg);
+    color: var(--urgent-color);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.65; }
+  }
+
+  .card-desc {
+    font-size: 0.84rem;
+    color: #5A4A42;
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.78rem;
+    color: var(--warm-mid);
+  }
+
+  .meta-item .meta-icon { font-size: 0.9rem; }
+
+  .meta-item strong {
+    color: var(--charcoal);
+    font-weight: 600;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 12px;
+  }
+
+  .tag {
+    padding: 2px 8px;
+    background: var(--skin-1);
+    border-radius: 4px;
+    font-size: 0.69rem;
+    color: var(--warm-mid);
+    border: 1px solid var(--skin-2);
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .card-category {
+    font-size: 0.7rem;
+    color: var(--skin-3);
+    font-weight: 500;
+  }
+
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 14px;
+    background: var(--charcoal);
+    color: var(--cream);
+    border-radius: 7px;
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 500;
+    transition: background 0.15s;
+  }
+
+  .card-link:hover { background: var(--terracotta); }
+
+  /* EXPAND */
+  .card-body {
+    display: none;
+  }
+  .card.expanded .card-body { display: block; }
+
+  .expand-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--warm-mid);
+    font-size: 0.78rem;
+    font-family: 'DM Sans', sans-serif;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+  }
+
+  .expand-btn:hover { color: var(--terracotta); }
+
+  /* NO RESULTS */
+  .no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--warm-mid);
+  }
+
+  .no-results h3 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    color: var(--charcoal);
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--charcoal);
+    color: var(--skin-2);
+    text-align: center;
+    padding: 20px;
+    font-size: 0.75rem;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .main { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+    .hero-inner { flex-direction: column; }
+  }
+
+  @media (max-width: 600px) {
+    .header-inner, .hero, .main { padding-left: 16px; padding-right: 16px; }
+    .hero-stats { gap: 10px; }
+    .stat-pill .num { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="header-icon">🩺</div>
+      <div class="header-text">
+        <h1>Funding Watch — Integrale Huidgezondheid</h1>
+        <p>HBO-onderzoeksgroep · Subsidieradar · Last updated: <span id="last-updated">April 9, 2026 12:00</span></p>
+      </div>
+    </div>
+    <div class="header-meta">
+      <div class="last-updated">
+        Gebouwde selectie op basis van<br>thema's uit de onderzoeksgroep
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <h2>Oncologische nazorg · Chronische wonden · Eczeem · Lipoedeem</h2>
+      <p>Subsidiekansen voor praktijkgericht onderzoek op het gebied van integrale, chronische huidgezondheid — speciaal geselecteerd op toegankelijkheid voor HBO-instellingen</p>
+    </div>
+    <div class="hero-stats" id="hero-stats">
+      <div class="stat-pill"><div class="num" id="stat-total">0</div><div class="label">Totaal</div></div>
+      <div class="stat-pill"><div class="num" id="stat-open">0</div><div class="label">Open</div></div>
+      <div class="stat-pill"><div class="num" id="stat-upcoming">0</div><div class="label">Aankomend</div></div>
+      <div class="stat-pill"><div class="num" id="stat-urgent">0</div><div class="label">Urgent</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="filter-section">
+      <h3>🔍 Zoeken</h3>
+      <input type="text" class="search-box" id="search-input" placeholder="Zoek op naam, funder, thema…">
+    </div>
+
+    <div class="filter-section">
+      <h3>Status</h3>
+      <div class="filter-chips" id="status-filters">
+        <label class="filter-chip active">
+          <input type="checkbox" value="Open" checked> Open
+          <span class="chip-badge" id="badge-open">0</span>
+        </label>
+        <label class="filter-chip active">
+          <input type="checkbox" value="Upcoming" checked> Aankomend
+          <span class="chip-badge" id="badge-upcoming">0</span>
+        </label>
+        <label class="filter-chip active">
+          <input type="checkbox" value="Continuous" checked> Doorlopend
+          <span class="chip-badge" id="badge-continuous">0</span>
+        </label>
+        <label class="filter-chip">
+          <input type="checkbox" value="Closed"> Gesloten
+          <span class="chip-badge" id="badge-closed">0</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <h3>Categorie Funder</h3>
+      <div class="filter-chips" id="category-filters">
+        <label class="filter-chip active"><input type="checkbox" value="Nederlands Nationaal" checked> 🇳🇱 Nederlands Nationaal <span class="chip-badge" id="badge-nl">0</span></label>
+        <label class="filter-chip active"><input type="checkbox" value="Europees" checked> 🇪🇺 Europees <span class="chip-badge" id="badge-eu">0</span></label>
+        <label class="filter-chip active"><input type="checkbox" value="Privaat/Fonds" checked> 🏛️ Privaat/Fonds <span class="chip-badge" id="badge-priv">0</span></label>
+        <label class="filter-chip active"><input type="checkbox" value="Internationaal" checked> 🌍 Internationaal <span class="chip-badge" id="badge-int">0</span></label>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <h3>Thema's</h3>
+      <div class="tag-cloud" id="tag-cloud"></div>
+    </div>
+
+    <div class="filter-section">
+      <button class="reset-btn" id="reset-btn">↺ Filters wissen</button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div>
+    <div class="sort-bar">
+      <div class="results-count">Toont <strong id="showing-count">0</strong> van <strong id="total-count">0</strong> subsidies</div>
+      <select class="sort-select" id="sort-select">
+        <option value="deadline">Sorteer: Deadline</option>
+        <option value="budget">Sorteer: Budget (hoog-laag)</option>
+        <option value="funder">Sorteer: Funder A-Z</option>
+        <option value="status">Sorteer: Status</option>
+      </select>
+    </div>
+
+    <div class="cards-grid" id="cards-grid"></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>Funding Watch · Onderzoeksgroep Integrale Huidgezondheid · Data Last Updated: <span id="footer-updated">April 9, 2026 12:00</span> · <span id="footer-count">0</span> kansen gevolgd</p>
+  <p style="margin-top:6px;color:var(--skin-3)">Controleer altijd de officiële call-pagina's voor actuele informatie. Dit dashboard dient uitsluitend als oriëntatie-instrument.</p>
+</footer>
+
+<script>
+const TODAY = new Date('2026-04-09');
+
+function formatBudget(min, max, currency) {
+  const fmt = n => n >= 1000000 ? `€${(n/1000000).toFixed(1)}M` : n >= 1000 ? `€${(n/1000).toFixed(0)}K` : `€${n}`;
+  if (min === max) return fmt(min);
+  return `${fmt(min)} – ${fmt(max)}`;
+}
+
+function isUrgent(deadline) {
+  if (!deadline) return false;
+  const d = new Date(deadline);
+  const diff = (d - TODAY) / (1000*60*60*24);
+  return diff >= 0 && diff <= 14;
+}
+
+function daysUntil(deadline) {
+  if (!deadline) return null;
+  const d = new Date(deadline);
+  return Math.ceil((d - TODAY) / (1000*60*60*24));
+}
+
+const fundingData = [
+  {
+    id: 1,
+    funder: "Regieorgaan SIA",
+    funderCategory: "Nederlands Nationaal",
+    name: "RAAK-publiek – Indieningsronde juni 2026",
+    type: "Project Grant",
+    careerStage: ["Lector", "Onderzoeker HBO"],
+    budgetMin: 50000,
+    budgetMax: 375000,
+    currency: "EUR",
+    deadline: "2026-06-16",
+    deadlineType: "Uitgewerkte aanvraag",
+    phaseType: "1-phase",
+    mandatoryPartners: true,
+    mandatoryPartnersDesc: "Minimaal 2 publieke partijen als consortiumpartner (ziekenhuizen, GGD, gemeenten, zorgaanbieders)",
+    recurring: "2x per jaar",
+    status: "Open",
+    relevanceTags: ["huidtherapie", "paramedisch", "chronische zorg", "praktijkgericht", "interprofessioneel", "oncologische nazorg", "zorgoptimalisatie"],
+    description: "De meest directe HBO-subsidie voor praktijkgericht onderzoek. Lectoren en onderzoekers van hogescholen doen samen met minimaal twee publieke partijen onderzoek naar maatschappelijke vraagstukken. Uitstekend geschikt voor onderzoek naar chronische huidaandoeningen, eczeem-management, wondbehandeling of oncologische nazorg in de eerste lijn. Consortiumpartners dienen 50% cofinanciering in te brengen. Looptijd 18–24 maanden.",
+    url: "https://regieorgaan-sia.nl/financiering/raak-publiek/indieningsronde-juni-2026/",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 2,
+    funder: "Regieorgaan SIA",
+    funderCategory: "Nederlands Nationaal",
+    name: "RAAK-mkb – Indieningsronde 2026",
+    type: "Project Grant",
+    careerStage: ["Lector", "Onderzoeker HBO"],
+    budgetMin: 50000,
+    budgetMax: 375000,
+    currency: "EUR",
+    deadline: "2026-09-01",
+    deadlineType: "Uitgewerkte aanvraag (ronde 2 – datum indicatief)",
+    phaseType: "1-phase",
+    mandatoryPartners: true,
+    mandatoryPartnersDesc: "Minimaal 6 MKB-ondernemingen (bijv. huidtherapiepraktijken, medische hulpmiddelenfabrikanten, cosmetische industrie)",
+    recurring: "2x per jaar",
+    status: "Upcoming",
+    relevanceTags: ["huidtherapie", "MKB", "praktijkgericht", "wondbehandeling", "eczeem", "lipoedeem", "huidverzorging"],
+    description: "RAAK-mkb verbindt hogescholen met het MKB. Voor de onderzoeksgroep huidtherapie relevant bij onderzoek waarbij private partijen betrokken zijn: huidtherapiepraktijken, leveranciers van wondverbanden of compressiemateriaal, of andere bedrijven actief in huidzorg. Ronde 1 (maart) al voorbij; ronde 2 verwacht rond september 2026.",
+    url: "https://regieorgaan-sia.nl/financiering/raak-mkb/",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 3,
+    funder: "Regieorgaan SIA",
+    funderCategory: "Nederlands Nationaal",
+    name: "Fellowships voor docent-onderzoekers",
+    type: "Personal Fellowship",
+    careerStage: ["Docent-onderzoeker HBO"],
+    budgetMin: 50000,
+    budgetMax: 50000,
+    currency: "EUR",
+    deadline: "2026-06-01",
+    deadlineType: "Indicatief – volgende ronde",
+    phaseType: "1-phase",
+    mandatoryPartners: false,
+    mandatoryPartnersDesc: "",
+    recurring: "2x per jaar",
+    status: "Upcoming",
+    relevanceTags: ["capaciteitsopbouw", "HBO", "onderzoeksvaardigheden", "praktijkgericht"],
+    description: "Fellowships bieden docent-onderzoekers de mogelijkheid om praktijkgerichte onderzoeksvaardigheden te ontwikkelen. Geschikt voor medewerkers binnen de onderzoeksgroep huidtherapie die onderzoekstijd willen verwerven. Maximum €50.000 per traject, eigen bijdrage vereist.",
+    url: "https://regieorgaan-sia.nl/financiering/fellowships-voor-docent-onderzoekers/",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 4,
+    funder: "Regieorgaan SIA",
+    funderCategory: "Nederlands Nationaal",
+    name: "HBO-Postdoc Financiering – Ronde juni 2026",
+    type: "Personal Fellowship",
+    careerStage: ["Postdoc", "Gepromoveerde HBO-docent"],
+    budgetMin: 125000,
+    budgetMax: 125000,
+    currency: "EUR",
+    deadline: "2026-06-30",
+    deadlineType: "Indicatief",
+    phaseType: "1-phase",
+    mandatoryPartners: false,
+    mandatoryPartnersDesc: "Eigen bijdrage hogeschool vereist",
+    recurring: "2x per jaar",
+    status: "Upcoming",
+    relevanceTags: ["postdoc", "capaciteitsopbouw", "HBO", "onderzoeksinfrastructuur"],
+    description: "Financiert postdocposities bij hogescholen voor gepromoveerde HBO-docenten of gepromoveerden van buiten het HBO. Geeft een impuls aan de kwaliteit van praktijkgericht onderzoek en onderwijs. Subsidieplafond €4M per ronde; ca. €120.000 voor loonkosten beoogde postdoc.",
+    url: "https://regieorgaan-sia.nl/financiering/",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 5,
+    funder: "ZonMw",
+    funderCategory: "Nederlands Nationaal",
+    name: "DoelmatigheidsOnderzoek – Open Ronde",
+    type: "Project Grant",
+    careerStage: ["Lector", "Senior Onderzoeker", "Klinisch Onderzoeker"],
+    budgetMin: 100000,
+    budgetMax: 800000,
+    currency: "EUR",
+    deadline: "2026-09-15",
+    deadlineType: "Uitgewerkte aanvraag (indicatief – nieuwe ronde nog niet open)",
+    phaseType: "2-phase",
+    mandatoryPartners: true,
+    mandatoryPartnersDesc: "Multicenter samenwerkingsverband; minimaal twee niet-universitaire centra",
+    recurring: "Meerdere rondes per programmaperiode",
+    status: "Upcoming",
+    relevanceTags: ["doelmatigheidsonderzoek", "wondbehandeling", "eczeem", "chronische wonden", "lipoedeem", "compressietherapie", "HTA", "kosteneffectiviteit"],
+    description: "Financiering voor onderzoek naar effectiviteit en kosten van niet-farmacotherapeutische interventies. Direct relevant voor huidtherapeutische interventies zoals compressietherapie bij chronische veneuze insufficiëntie, oedeemtherapie, littekenzorg of eczeem-behandelprotocollen. HBO-instellingen kunnen participeren als co-onderzoeker (twee niet-universitaire centra vereist). Max. €800K per 10 jaar; 10% eigen bijdrage.",
+    url: "https://www.zonmw.nl/nl/programma/doelmatigheidsonderzoek",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 6,
+    funder: "ZonMw",
+    funderCategory: "Nederlands Nationaal",
+    name: "Onderzoeksconsortia Passend Zorgaanbod – Eerstelijn",
+    type: "Network/Consortium",
+    careerStage: ["Lector", "Senior Onderzoeker"],
+    budgetMin: 500000,
+    budgetMax: 3000000,
+    currency: "EUR",
+    deadline: "2026-05-15",
+    deadlineType: "Indicatief – call loopt/details op website",
+    phaseType: "2-phase",
+    mandatoryPartners: true,
+    mandatoryPartnersDesc: "Breed consortium: zorgaanbieders alle lijnen, patiëntenorganisaties, kennisinstituten, verzekeraars",
+    recurring: "Eenmalig",
+    status: "Upcoming",
+    relevanceTags: ["passende zorg", "eerstelijn", "zorgoptimalisatie", "interprofessioneel", "chronische aandoeningen", "zorgketen"],
+    description: "Subsidieoproep voor Onderzoeksconsortia die werken aan passend zorgaanbod over de gehele zorgketen. Huidtherapie als eerstelijns specialisme kan hier een centrale rol spelen bij aandoeningen zoals chronische huidproblemen, lipoedeem of oncologische nazorg. Niet-zorgaanbieders (zoals hogescholen) kunnen participeren. Wekelijks vragenuur bij ZonMw beschikbaar.",
+    url: "https://www.zonmw.nl/nl/artikel/meest-gestelde-vragen-onderzoeksconsortia-voor-passend-zorgaanbod",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 7,
+    funder: "ZonMw",
+    funderCategory: "Nederlands Nationaal",
+    name: "Zorgmodules Huidtherapie (NVH-traject)",
+    type: "Project Grant",
+    careerStage: ["Lector", "Beroepsvereniging", "Klinisch Onderzoeker"],
+    budgetMin: 100000,
+    budgetMax: 350000,
+    currency: "EUR",
+    deadline: "2025-04-01",
+    deadlineType: "Gesloten – volg volgende ronde",
+    phaseType: "1-phase",
+    mandatoryPartners: true,
+    mandatoryPartnersDesc: "Op uitnodiging van ZonMw via NVH; hogescholen kunnen meeschrijven als kennispartner",
+    recurring: "Programmagebonden",
+    status: "Closed",
+    relevanceTags: ["huidtherapie", "zorgmodule", "litteken", "wond", "lipoedeem", "eerstelijn", "richtlijnontwikkeling"],
+    description: "ZonMw subsidie specifiek voor ontwikkeling van NVH-zorgmodules Litteken, Wond en Lipoedeem. Gesloten (deadline 1 april 2025). Volg ZonMw voor een volgende ronde; de onderzoeksgroep kan hierbij als kennispartner aansluiten bij de NVH.",
+    url: "https://www.zonmw.nl/nl/subsidie/zorgmodules-huidtherapie-2025",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 8,
+    funder: "KWF Kankerbestrijding",
+    funderCategory: "Privaat/Fonds",
+    name: "KWF Development Call 2026 (Implementation Research)",
+    type: "Project Grant",
+    careerStage: ["Senior Onderzoeker", "Lector", "Klinisch Onderzoeker"],
+    budgetMin: 200000,
+    budgetMax: 1500000,
+    currency: "EUR",
+    deadline: "2026-07-07",
+    deadlineType: "Uitgewerkte aanvraag",
+    phaseType: "2-phase",
+    mandatoryPartners: false,
+    mandatoryPartnersDesc: "Multidisciplinaire samenstelling sterk aanbevolen",
+    recurring: "Jaarlijks",
+    status: "Open",
+    relevanceTags: ["oncologische nazorg", "littekens", "lymfoedeem", "huidveranderingen na kanker", "implementatieonderzoek", "melanoom", "hand-voet-ziekte"],
+    description: "KWF financiert implementatieonderzoek (Creation of Modality t/m Implementation research). Highly relevant voor de thema's oncologische nazorg (littekens, oedeem, fibrose, hand-voet-ziekte) en restverschijnselen na kinderoncologie. HBO-instellingen kunnen penvoerder zijn of participeren. YIG-aanvragen nu via aparte call.",
+    url: "https://www.kwf.nl/en/forresearchers/funding",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 9,
+    funder: "KWF Kankerbestrijding",
+    funderCategory: "Privaat/Fonds",
+    name: "KWF PIPELINE Call 2026 – Klinische Ontwikkeling",
+    type: "Project Grant",
+    careerStage: ["Senior Onderzoeker", "Klinisch Onderzoeker"],
+    budgetMin: 1000000,
+    budgetMax: 5000000,
+    currency: "EUR",
+    deadline: "2026-07-07",
+    deadlineType: "Uitgewerkte aanvraag",
+    phaseType: "2-phase",
+    mandatoryPartners: false,
+    mandatoryPartnersDesc: "",
+    recurring: "Nieuw in 2026",
+    status: "Upcoming",
+    relevanceTags: ["huidkanker", "melanoom", "klinische trials", "academisch geneesmiddelonderzoek"],
+    description: "Nieuwe KWF PIPELINE-call richt zich op klinische ontwikkeling van geneesmiddelen uit academisch onderzoek. Minder direct van toepassing op huidtherapie als paramedisch vakgebied, maar relevant bij samenwerking met dermatologen bij melanoom of huidkanker. Opent voorjaar 2026.",
+    url: "https://www.kwf.nl/en/forresearchers/funding",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 10,
+    funder: "KWF Kankerbestrijding",
+    funderCategory: "Privaat/Fonds",
+    name: "KWF Young Investigator Grant 2026",
+    type: "Personal Fellowship",
+    careerStage: ["Junior Onderzoeker", "Postdoc"],
+    budgetMin: 100000,
+    budgetMax: 400000,
+    currency: "EUR",
+    deadline: "2026-07-07",
+    deadlineType: "Uitgewerkte aanvraag",
+    phaseType: "1-phase",
+    mandatoryPartners: false,
+    mandatoryPartnersDesc: "",
+    recurring: "Jaarlijks",
+    status: "Open",
+    relevanceTags: ["oncologische nazorg", "jong talent", "melanoom", "huidkanker", "lymfoedeem"],
+    description: "Separate YIG-call voor jonge onderzoekers. Relevant voor gepromoveerde onderzoekers binnen de onderzoeksgroep die focussen op oncologisch-gerelateerde huidproblematiek (lymfoedeem, littekens na oncologische behandeling).",
+    url: "https://www.kwf.nl/en/forresearchers/funding",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 11,
+    funder: "Horizon Europe – Cluster 1 Health",
+    funderCategory: "Europees",
+    name: "HORIZON-HLTH-2026-01-DISEASE-09: Chronische Niet-overdraagbare Ziekten",
+    type: "Network/Consortium",
+    careerStage: ["Senior Onderzoeker", "Lector"],
+    budgetMin: 3000000,
+    budgetMax: 8000000,
+    currency: "EUR",
+    deadline: "2026-04-16",
+    deadlineType: "Single stage",
+    phaseType: "1-phase",
+    mandatoryPartners: true,
+    mandatoryPartnersDesc: "Internationaal consortium vereist (min. 3 lidstaten); HBO-instellingen kunnen participeren",
+    recurring: "Jaarlijks",
+    status: "Open",
+    relevanceTags: ["chronische aandoeningen", "implementatieonderzoek", "eczeem", "chronische wonden", "zorgoptimalisatie", "multisectoraal", "preventie"],
+    description: "Multisectorale implementatieonderzoekscall voor chronische niet-overdraagbare aandoeningen. Relevant voor eczeem (als chronische NCD), chronische veneuze insufficiëntie en huidgerelateerde aandoeningen in de dagelijkse omgeving. HBO-instellingen zijn welkome partners in internationale consortia. Deadline 16 april 2026 – URGENT.",
+    url: "https://hadea.ec.europa.eu/calls-proposals/horizon-europe-health-2026-calls-destination-tackling-diseases-and-reducing-disease-burden_en",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 12,
+    funder: "Horizon Europe – Cluster 1 Health",
+    funderCategory: "Europees",
+    name: "HORIZON-HLTH-2026-01-CARE-01: Toegang tot Zorg via Innovatieve Inkoop",
+    type: "Network/Consortium",
+    careerStage: ["Senior Onderzoeker", "Lector"],
+    budgetMin: 3000000,
+    budgetMax: 8000000,
+    currency: "EUR",
+    deadline: "2026-04-16",
+    deadlineType: "Single stage",
+    phaseType: "1-phase",
+    mandatoryPartners: true,
+    mandatoryPartnersDesc: "Internationaal consortium; publieke aankopers vereist",
+    recurring: "Jaarlijks",
+    status: "Open",
+    relevanceTags: ["toegang tot zorg", "innovatieve inkoop", "duurzame zorg", "zorgoptimalisatie", "interprofessioneel"],
+    description: "Oproep voor innovatieve inkoop van gezondheidszorgoplossingen ter verbetering van burgeracces via geïntegreerde of gepersonaliseerde benaderingen. Mogelijkheden voor huidtherapeutische dienstverlening als innovatieve eerstelijns zorgvorm. Deadline 16 april 2026 – URGENT.",
+    url: "https://hadea.ec.europa.eu/calls-proposals/horizon-europe-health-2026-calls-destination-ensuring-equal-access-innovative-sustainable-and-high_en",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 13,
+    funder: "Horizon Europe – Cluster 1 Health",
+    funderCategory: "Europees",
+    name: "HORIZON-HLTH-2026-01-CARE-03: Low-value Care Identificeren",
+    type: "Network/Consortium",
+    careerStage: ["Senior Onderzoeker", "Lector"],
+    budgetMin: 3000000,
+    budgetMax: 8000000,
+    currency: "EUR",
+    deadline: "2026-04-16",
+    deadlineType: "Single stage",
+    phaseType: "1-phase",
+    mandatoryPartners: true,
+    mandatoryPartnersDesc: "Internationaal consortium vereist",
+    recurring: "Jaarlijks",
+    status: "Open",
+    relevanceTags: ["passende zorg", "zorgoptimalisatie", "doelmatigheid", "huidtherapie", "chronische zorg"],
+    description: "Identificeren en aanpakken van low-value care in gezondheidssystemen. Relevant voor vraagstukken rondom gepast gebruik van huidtherapeutische interventies en zorgoptimalisatie. Deadline 16 april 2026 – URGENT.",
+    url: "https://hadea.ec.europa.eu/calls-proposals/horizon-europe-health-2026-calls-destination-ensuring-equal-access-innovative-sustainable-and-high_en",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 14,
+    funder: "Health~Holland / TKI LSH",
+    funderCategory: "Nederlands Nationaal",
+    name: "Praktijkgericht Onderzoek Extramurale Zorg (SIA × Health~Holland)",
+    type: "Project Grant",
+    careerStage: ["Lector", "Onderzoeker HBO"],
+    budgetMin: 100000,
+    budgetMax: 375000,
+    currency: "EUR",
+    deadline: "2026-09-01",
+    deadlineType: "Indicatief – volg aankondiging",
+    phaseType: "1-phase",
+    mandatoryPartners: true,
+    mandatoryPartnersDesc: "HBO-instelling penvoerder; MKB-partners",
+    recurring: "Programmagebonden",
+    status: "Upcoming",
+    relevanceTags: ["extramurale zorg", "thuis", "chronische zorg", "huidtherapie", "wondbehandeling", "praktijkgericht", "MKB"],
+    description: "Samenwerking tussen Regieorgaan SIA en Health~Holland voor 2-jarig praktijkgericht onderzoek samen met MKB. Georiënteerd op extramurale zorg – perfect aansluitend bij huidtherapeutische eerstelijns nazorg. 50% cofinanciering MKB vereist. Volg SIA-website voor nieuwe rondes.",
+    url: "https://regieorgaan-sia.nl/financiering/",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 15,
+    funder: "ReumaNederland",
+    funderCategory: "Privaat/Fonds",
+    name: "Thematische Call Ontstekingsreuma & Zeldzame Reumatische Aandoeningen 2026",
+    type: "Project Grant",
+    careerStage: ["Senior Onderzoeker", "Lector", "Junior Onderzoeker"],
+    budgetMin: 50000,
+    budgetMax: 500000,
+    currency: "EUR",
+    deadline: "2026-12-31",
+    deadlineType: "Indicatief – beslissing medio 2025 over openstelling 2026",
+    phaseType: "2-phase",
+    mandatoryPartners: false,
+    mandatoryPartnersDesc: "Patiëntenorganisaties bij voorkeur betrokken",
+    recurring: "Jaarlijks",
+    status: "Upcoming",
+    relevanceTags: ["reuma", "huidmanifestaties reuma", "psoriasis", "scleroderma", "interprofessioneel", "chronische zorg"],
+    description: "ReumaNederland financiert onderzoek naar reumatische aandoeningen. Relevant voor huidtherapie bij reumatische huidmanifestaties: psoriasis, scleroderma-gerelateerde huidproblematiek, en huidbeschadiging bij reuma. Budget €6,5–8M per jaar totaal. Thematische call 2026 gericht op ontstekingsreuma en zeldzame reumatische aandoeningen.",
+    url: "https://reumanederland.nl/voor-onderzoekers/subsidiemogelijkheden-formulieren-procedure",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 16,
+    funder: "Nationaal Fonds tegen Kanker (NfK)",
+    funderCategory: "Privaat/Fonds",
+    name: "NfK Projectsubsidie – Mensgerichte Oncologische Zorg",
+    type: "Project Grant",
+    careerStage: ["Senior Onderzoeker", "Lector", "Junior Onderzoeker"],
+    budgetMin: 20000,
+    budgetMax: 200000,
+    currency: "EUR",
+    deadline: "2026-12-31",
+    deadlineType: "Doorlopend – contact per mail",
+    phaseType: "Varies",
+    mandatoryPartners: false,
+    mandatoryPartnersDesc: "Multidisciplinaire aanpak aangemoedigd",
+    recurring: "Doorlopend",
+    status: "Continuous",
+    relevanceTags: ["oncologische nazorg", "welzijn", "beweging", "voeding", "huidveranderingen na kanker", "mensgerichte zorg", "restverschijnselen"],
+    description: "Het NfK richt zich op mensgerichte behandeling: voeding, beweging en welzijn binnen de oncologische zorg. Direct relevant voor restverschijnselen na kankerbehandeling inclusief huid- en littekenproblematiek. Doorlopend: stuur eerst een mail met projectidee. Geen vaststaand maximumbedrag.",
+    url: "https://nationaalfondstegenkanker.nl/",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 17,
+    funder: "Stichting Melanoom",
+    funderCategory: "Privaat/Fonds",
+    name: "Stichting Melanoom – Projectsubsidie",
+    type: "Project Grant",
+    careerStage: ["Junior Onderzoeker", "Senior Onderzoeker", "Lector"],
+    budgetMin: 10000,
+    budgetMax: 100000,
+    currency: "EUR",
+    deadline: "2026-12-31",
+    deadlineType: "Doorlopend – contacteer fonds",
+    phaseType: "Varies",
+    mandatoryPartners: false,
+    mandatoryPartnersDesc: "",
+    recurring: "Doorlopend",
+    status: "Continuous",
+    relevanceTags: ["melanoom", "huidkanker", "nazorg", "patiëntenondersteuning", "preventie"],
+    description: "Stichting Melanoom zet zich in voor patiënten met melanoom. Kan subsidie bieden voor onderzoek naar preventie, vroege opsporing en nazorg bij huidkanker/melanoom. Contact opnemen voor actuele mogelijkheden.",
+    url: "https://www.stichtingmelanoom.nl/",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 18,
+    funder: "MSCA – Marie Skłodowska-Curie Actions",
+    funderCategory: "Europees",
+    name: "MSCA Postdoctoral Fellowships 2026",
+    type: "Personal Fellowship",
+    careerStage: ["Postdoc"],
+    budgetMin: 150000,
+    budgetMax: 250000,
+    currency: "EUR",
+    deadline: "2026-09-10",
+    deadlineType: "Indicatief (jaarlijks september)",
+    phaseType: "1-phase",
+    mandatoryPartners: false,
+    mandatoryPartnersDesc: "Hostinstelling vereist; HBO-instelling kan host zijn",
+    recurring: "Jaarlijks",
+    status: "Upcoming",
+    relevanceTags: ["postdoc", "mobiliteit", "internationaal", "Europees", "capaciteitsopbouw", "huidgezondheid"],
+    description: "Prestigieus Europees fellowship voor excellente postdocs. HBO-instellingen kunnen optreden als hostorganisatie. Maximaal 2 jaar. Relevant voor internationale onderzoekers die aansluiten bij de thema's van de onderzoeksgroep integrale huidgezondheid. Normaliter deadline september.",
+    url: "https://marie-sklodowska-curie-actions.ec.europa.eu/actions/postdoctoral-fellowships",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 19,
+    funder: "ZonMw",
+    funderCategory: "Nederlands Nationaal",
+    name: "Veelbelovende Zorg – Subsidieregeling",
+    type: "Project Grant",
+    careerStage: ["Senior Onderzoeker", "Lector", "Klinisch Onderzoeker"],
+    budgetMin: 100000,
+    budgetMax: 2000000,
+    currency: "EUR",
+    deadline: "2026-12-31",
+    deadlineType: "Doorlopend – meerdere rondes per jaar",
+    phaseType: "2-phase",
+    mandatoryPartners: true,
+    mandatoryPartnersDesc: "Breed consortium inclusief zorgaanbieders en patiëntenvertegenwoordiging",
+    recurring: "Meerdere rondes per jaar",
+    status: "Continuous",
+    relevanceTags: ["lipoedeem", "lymfoedeem", "innovatieve interventies", "basispakket", "kosteneffectiviteit", "wondbehandeling", "compressietherapie"],
+    description: "Financiert onderzoek naar veelbelovende, nog niet vergoede zorginterventies ter onderbouwing van opname in het basispakket. Bijzonder relevant voor lipoedeem (tumescente liposuctie), innovatieve wondbehandelingen of nieuwe huidtherapeutische technieken die nog niet vergoed worden. Doorlopend met meerdere rondes per jaar.",
+    url: "https://www.zonmw.nl/nl/programma/veelbelovende-zorg",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 20,
+    funder: "Longfonds",
+    funderCategory: "Privaat/Fonds",
+    name: "Longfonds Onderzoekssubsidie",
+    type: "Project Grant",
+    careerStage: ["Senior Onderzoeker", "Lector", "Junior Onderzoeker"],
+    budgetMin: 50000,
+    budgetMax: 300000,
+    currency: "EUR",
+    deadline: "2026-12-31",
+    deadlineType: "Doorlopend – contacteer fonds",
+    phaseType: "Varies",
+    mandatoryPartners: false,
+    mandatoryPartnersDesc: "",
+    recurring: "Doorlopend",
+    status: "Continuous",
+    relevanceTags: ["huid en long", "systemische aandoeningen", "sarcoidose", "preventie", "chronische zorg"],
+    description: "Longfonds is relevant bij huidmanifestaties van longaandoeningen (bijv. sarcoidose-gerelateerde huidproblemen). Zijdelingse relevantie; raadpleeg fonds voor toepasbaarheid van huidgezondheidsprojecten.",
+    url: "https://www.longfonds.nl/onderzoek",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 21,
+    funder: "Diabetesfonds",
+    funderCategory: "Privaat/Fonds",
+    name: "Diabetesfonds – Open Subsidieronde",
+    type: "Project Grant",
+    careerStage: ["Senior Onderzoeker", "Lector", "Junior Onderzoeker"],
+    budgetMin: 50000,
+    budgetMax: 500000,
+    currency: "EUR",
+    deadline: "2026-10-01",
+    deadlineType: "Indicatief – jaarlijks",
+    phaseType: "2-phase",
+    mandatoryPartners: false,
+    mandatoryPartnersDesc: "",
+    recurring: "Jaarlijks",
+    status: "Upcoming",
+    relevanceTags: ["diabetesvoet", "wondbehandeling", "chronische wonden", "neuropathie", "vasculaire aandoeningen", "preventie"],
+    description: "Het Diabetesfonds financiert onderzoek naar diabetes en complicaties. Highly relevant voor de onderzoeksgroep: diabetische voetproblemen, chronische wonden bij diabetes en huidmanifestaties van diabetes zijn directe raakvlakken met huidtherapie.",
+    url: "https://www.diabetesfonds.nl/professionals/onderzoek",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 22,
+    funder: "Nierstichting Kolff+",
+    funderCategory: "Privaat/Fonds",
+    name: "Nierstichting Kolff+ Grant",
+    type: "Project Grant",
+    careerStage: ["Senior Onderzoeker", "Junior Onderzoeker"],
+    budgetMin: 50000,
+    budgetMax: 350000,
+    currency: "EUR",
+    deadline: "2026-12-31",
+    deadlineType: "Doorlopend – volg website",
+    phaseType: "2-phase",
+    mandatoryPartners: false,
+    mandatoryPartnersDesc: "",
+    recurring: "Jaarlijks",
+    status: "Upcoming",
+    relevanceTags: ["nierpatiënten", "huid bij nierinsufficiëntie", "jeuk", "chronische zorg", "kwaliteit van leven"],
+    description: "Relevant voor huidproblematiek bij nierinsufficiëntie: chronische jeuk (pruritus), droge huid en wondproblematiek bij dialysepatiënten zijn terreinen waar huidtherapie waarde toevoegt.",
+    url: "https://www.nierstichting.nl/kolffplus",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 23,
+    funder: "Regieorgaan SIA",
+    funderCategory: "Nederlands Nationaal",
+    name: "SPRONG – Thematische Zorggroep",
+    type: "Infrastructure",
+    careerStage: ["Lector", "Onderzoeksgroep"],
+    budgetMin: 500000,
+    budgetMax: 2000000,
+    currency: "EUR",
+    deadline: "2027-01-01",
+    deadlineType: "Volgende ronde indicatief – volg aankondiging",
+    phaseType: "2-phase",
+    mandatoryPartners: true,
+    mandatoryPartnersDesc: "Meerdere hogescholen; breed consortium",
+    recurring: "Periodiek",
+    status: "Upcoming",
+    relevanceTags: ["onderzoeksinfrastructuur", "lectoraten", "capaciteitsopbouw", "zorg", "HBO netwerk", "lange termijn"],
+    description: "SPRONG investeert in onderzoeksgroepen (expertiseclusters) met de potentie om in 8 jaar te groeien tot krachtige, duurzame onderzoeksgroep. Relevant voor de onderzoeksgroep Integrale Huidgezondheid als zij wil uitgroeien tot een nationaal kenniscentrum huidtherapie. Vorige ronden thema zorg al gehonoreerd; volg aankondiging.",
+    url: "https://regieorgaan-sia.nl/financiering/",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 24,
+    funder: "EU4Health",
+    funderCategory: "Europees",
+    name: "EU4Health Action Grants – Chronische Aandoeningen",
+    type: "Project Grant",
+    careerStage: ["Senior Onderzoeker", "Lector"],
+    budgetMin: 500000,
+    budgetMax: 3000000,
+    currency: "EUR",
+    deadline: "2026-09-30",
+    deadlineType: "Indicatief – volg HaDEA portal",
+    phaseType: "2-phase",
+    mandatoryPartners: true,
+    mandatoryPartnersDesc: "Minimaal 3 EU-lidstaten",
+    recurring: "Jaarlijks",
+    status: "Upcoming",
+    relevanceTags: ["chronische aandoeningen", "Europees beleid", "preventie", "zorgoptimalisatie", "eczeem", "huidzorg"],
+    description: "EU4Health financiert acties die bijdragen aan EU-gezondheidsprioriteiten. Calls rondom chronische aandoeningen en preventie zijn relevant voor huidgezondheidsonderzoek. HBO-instellingen kunnen deelnemen als projectpartner.",
+    url: "https://health.ec.europa.eu/funding/eu4health-programme_en",
+    dateAdded: "2026-04-09"
+  },
+  {
+    id: 25,
+    funder: "Hartstichting",
+    funderCategory: "Privaat/Fonds",
+    name: "Hartstichting – Open Competitie Onderzoek",
+    type: "Project Grant",
+    careerStage: ["Senior Onderzoeker", "Junior Onderzoeker"],
+    budgetMin: 100000,
+    budgetMax: 600000,
+    currency: "EUR",
+    deadline: "2026-10-15",
+    deadlineType: "Indicatief – jaarlijks",
+    phaseType: "2-phase",
+    mandatoryPartners: false,
+    mandatoryPartnersDesc: "",
+    recurring: "Jaarlijks",
+    status: "Upcoming",
+    relevanceTags: ["chronische veneuze insufficiëntie", "cardiovasculair", "oedeem", "wondbehandeling", "vasculaire huidaandoeningen"],
+    description: "Relevant bij vasculaire huidproblemen: chronische veneuze insufficiëntie (een kernthema van de onderzoeksgroep), veneuze ulcera en oedeem hebben directe cardiovasculaire raakvlakken. Hartstichting financiert cardiovasculair gerelateerd onderzoek.",
+    url: "https://www.hartstichting.nl/onderzoek",
+    dateAdded: "2026-04-09"
+  }
+];
+
+// ---- RENDER ----
+const allTags = [...new Set(fundingData.flatMap(f => f.relevanceTags))].sort();
+let activeTagFilters = [];
+let activeStatusFilters = ['Open', 'Upcoming', 'Continuous'];
+let activeCategoryFilters = ['Nederlands Nationaal', 'Europees', 'Privaat/Fonds', 'Internationaal'];
+
+function updateBadges() {
+  const counts = { Open: 0, Upcoming: 0, Continuous: 0, Closed: 0 };
+  const catCounts = { 'Nederlands Nationaal': 0, 'Europees': 0, 'Privaat/Fonds': 0, 'Internationaal': 0 };
+  fundingData.forEach(f => {
+    counts[f.status] = (counts[f.status] || 0) + 1;
+    catCounts[f.funderCategory] = (catCounts[f.funderCategory] || 0) + 1;
+  });
+  document.getElementById('badge-open').textContent = counts.Open;
+  document.getElementById('badge-upcoming').textContent = counts.Upcoming;
+  document.getElementById('badge-continuous').textContent = counts.Continuous;
+  document.getElementById('badge-closed').textContent = counts.Closed;
+  document.getElementById('badge-nl').textContent = catCounts['Nederlands Nationaal'];
+  document.getElementById('badge-eu').textContent = catCounts['Europees'];
+  document.getElementById('badge-priv').textContent = catCounts['Privaat/Fonds'];
+  document.getElementById('badge-int').textContent = catCounts['Internationaal'] || 0;
+}
+
+function buildTagCloud() {
+  const cloud = document.getElementById('tag-cloud');
+  cloud.innerHTML = '';
+  allTags.forEach(tag => {
+    const btn = document.createElement('button');
+    btn.className = 'tag-btn';
+    btn.textContent = tag;
+    btn.addEventListener('click', () => {
+      const idx = activeTagFilters.indexOf(tag);
+      if (idx === -1) { activeTagFilters.push(tag); btn.classList.add('active'); }
+      else { activeTagFilters.splice(idx, 1); btn.classList.remove('active'); }
+      renderCards();
+    });
+    cloud.appendChild(btn);
+  });
+}
+
+function getFilteredSorted() {
+  const search = document.getElementById('search-input').value.toLowerCase();
+  const sort = document.getElementById('sort-select').value;
+
+  let data = fundingData.filter(f => {
+    if (!activeStatusFilters.includes(f.status)) return false;
+    if (!activeCategoryFilters.includes(f.funderCategory)) return false;
+    if (activeTagFilters.length > 0 && !activeTagFilters.some(t => f.relevanceTags.includes(t))) return false;
+    if (search) {
+      const hay = [f.funder, f.name, f.description, ...f.relevanceTags].join(' ').toLowerCase();
+      if (!hay.includes(search)) return false;
+    }
+    return true;
+  });
+
+  const statusOrder = { Open: 0, Upcoming: 1, Continuous: 2, Closed: 3 };
+  data.sort((a, b) => {
+    if (sort === 'deadline') {
+      const da = a.deadline || '9999-99-99', db = b.deadline || '9999-99-99';
+      return da.localeCompare(db);
+    }
+    if (sort === 'budget') return b.budgetMax - a.budgetMax;
+    if (sort === 'funder') return a.funder.localeCompare(b.funder);
+    if (sort === 'status') return (statusOrder[a.status] || 9) - (statusOrder[b.status] || 9);
+    return 0;
+  });
+
+  return data;
+}
+
+function renderCards() {
+  const data = getFilteredSorted();
+  const grid = document.getElementById('cards-grid');
+  grid.innerHTML = '';
+
+  document.getElementById('showing-count').textContent = data.length;
+  document.getElementById('total-count').textContent = fundingData.length;
+
+  // Hero stats
+  const openCount = fundingData.filter(f => f.status === 'Open').length;
+  const upcomingCount = fundingData.filter(f => f.status === 'Upcoming').length;
+  const urgentCount = fundingData.filter(f => isUrgent(f.deadline) && f.status !== 'Closed').length;
+  document.getElementById('stat-total').textContent = fundingData.length;
+  document.getElementById('stat-open').textContent = openCount;
+  document.getElementById('stat-upcoming').textContent = upcomingCount;
+  document.getElementById('stat-urgent').textContent = urgentCount;
+  document.getElementById('footer-count').textContent = fundingData.length;
+
+  if (data.length === 0) {
+    grid.innerHTML = '<div class="no-results"><h3>Geen subsidies gevonden</h3><p>Pas de filters aan om meer resultaten te zien.</p></div>';
+    return;
+  }
+
+  data.forEach(f => {
+    const urgent = isUrgent(f.deadline) && f.status !== 'Closed';
+    const days = daysUntil(f.deadline);
+    const card = document.createElement('div');
+    card.className = `card status-${f.status.toLowerCase()}${urgent ? ' urgent' : ''}`;
+
+    const deadlineStr = f.deadline
+      ? `${f.deadline}${days !== null ? (days <= 0 ? ' (verstreken)' : ` (nog ${days} dagen)`) : ''}` : 'Doorlopend';
+
+    card.innerHTML = `
+      <div class="card-header">
+        <div>
+          <div class="card-funder">${f.funder}</div>
+          <div class="card-name">${f.name}</div>
+        </div>
+        <div class="card-badges">
+          <span class="status-badge status-${f.status.toLowerCase()}">${f.status === 'Open' ? 'Open' : f.status === 'Upcoming' ? 'Aankomend' : f.status === 'Continuous' ? 'Doorlopend' : 'Gesloten'}</span>
+          ${urgent ? `<span class="urgent-badge">⚡ Urgent</span>` : ''}
+        </div>
+      </div>
+      <div class="card-desc">${f.description}</div>
+      <div class="card-meta">
+        <div class="meta-item"><span class="meta-icon">💶</span> Budget: <strong>${formatBudget(f.budgetMin, f.budgetMax, f.currency)}</strong></div>
+        <div class="meta-item"><span class="meta-icon">📅</span> Deadline: <strong>${deadlineStr}</strong></div>
+        <div class="meta-item"><span class="meta-icon">🔗</span> ${f.phaseType}</div>
+        ${f.mandatoryPartners ? `<div class="meta-item"><span class="meta-icon">🤝</span> Partners vereist</div>` : ''}
+      </div>
+      <div class="card-tags">${f.relevanceTags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      <div class="card-footer">
+        <span class="card-category">${f.funderCategory}</span>
+        <a href="${f.url}" target="_blank" rel="noopener" class="card-link">Meer info →</a>
+      </div>
+    `;
+
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+// Init
+function init() {
+  updateBadges();
+  buildTagCloud();
+  renderCards();
+
+  // Status filters
+  document.querySelectorAll('#status-filters input').forEach(cb => {
+    cb.addEventListener('change', () => {
+      activeStatusFilters = [...document.querySelectorAll('#status-filters input:checked')].map(c => c.value);
+      renderCards();
+    });
+  });
+
+  // Category filters
+  document.querySelectorAll('#category-filters input').forEach(cb => {
+    cb.addEventListener('change', () => {
+      activeCategoryFilters = [...document.querySelectorAll('#category-filters input:checked')].map(c => c.value);
+      renderCards();
+    });
+  });
+
+  document.getElementById('search-input').addEventListener('input', renderCards);
+  document.getElementById('sort-select').addEventListener('change', renderCards);
+
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    document.querySelectorAll('#status-filters input').forEach((cb, i) => { cb.checked = i < 3; });
+    document.querySelectorAll('#category-filters input').forEach(cb => { cb.checked = true; });
+    activeStatusFilters = ['Open', 'Upcoming', 'Continuous'];
+    activeCategoryFilters = ['Nederlands Nationaal', 'Europees', 'Privaat/Fonds', 'Internationaal'];
+    activeTagFilters = [];
+    document.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('search-input').value = '';
+    renderCards();
+  });
+}
+
+init();
+</script>
+</body>
+</html>
